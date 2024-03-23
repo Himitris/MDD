@@ -1,0 +1,32 @@
+<div class="container">
+    <app-header></app-header>
+    <div class="list">
+        <mat-card>
+            <button mat-raised-button color="primary" routerLink="/form">
+                <mat-icon>add</mat-icon>
+                <span class="ml1">Créer un article</span>
+            </button>
+            <div class="" fxLayout="row wrap" fxLayout.lt-md="column">
+                <mat-card class="item" *ngFor="let article of (articles$ | async)" fxFlex>
+                    <mat-card-header>
+                        <mat-card-title>{{ article.title }}</mat-card-title>
+                        <mat-card-subtitle>
+                            Session created {{ article.created_at | date: 'longDate'}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            {{ article.content }}
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" [routerLink]="[article.id]">
+                            <mat-icon>search</mat-icon>
+                            <span class="ml1">Detail</span>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container">
+    <app-header></app-header>
+    <div class="list">
+        <mat-card>
+            <button mat-icon-button routerLink="/articles">
+                <mat-icon aria-hidden="false" aria-label="Back" fontIcon="arrow_back" class="icon"></mat-icon>
+            </button>
+            <div class="items mt2" fxLayout="row wrap" fxLayout.lt-md="column">
+                <mat-card class="item" *ngIf="article$ | async as article" fxFlex>
+                    <mat-card-header>
+                        <mat-card-title>{{ article.title }}</mat-card-title>
+                        <mat-card-subtitle>
+                            Session created {{ article.created_at | date: 'longDate'}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <div mat-card-image fxLayoutAlign="center center">
+                        <img class="picture" src="" alt="img">
+                    </div>
+                    <mat-card-content>
+                        <p>
+                            {{ article.content }}
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card>
+    </div>
+</div>

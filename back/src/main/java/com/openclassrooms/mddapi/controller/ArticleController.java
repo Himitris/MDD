@@ -1,0 +1,43 @@
+package com.openclassrooms.mddapi.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.openclassrooms.mddapi.dto.ArticleRequest;
+import com.openclassrooms.mddapi.dto.CommentResponse;
+import com.openclassrooms.mddapi.model.Article;
+import com.openclassrooms.mddapi.model.User;
+import com.openclassrooms.mddapi.service.ArticleService;
+
+@RestController
+public class ArticleController {
+
+    @Autowired
+    private ArticleService articleService;
+
+    @Autowired
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @PostMapping("/article")
+    public ResponseEntity<?> addComment(@RequestBody ArticleRequest articleRequest) { 
+        Article article = new Article(articleRequest.title, articleRequest.content);
+        // Récupérez l'utilisateur courant à partir du contexte de sécurité
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        Long currentUserId = currentUser.getId();
+
+        article.setTopicId(articleRequest.topic);
+        article.setUserId(currentUserId);
+        articleService.save(article);
+        return new ResponseEntity<>(new CommentResponse("Article posted !"), HttpStatus.CREATED);
+    }
+}

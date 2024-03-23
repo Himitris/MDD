@@ -1,0 +1,28 @@
+<div class="container">
+    <app-header></app-header>
+    <div class="page">
+        <button mat-icon-button (click)="home()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back" class="icon"></mat-icon>
+        </button>
+        <div class="form-container">
+            <form class="form">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Nom d'utilisateur">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Adresse e-mail">
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Entrer votre mot de passe</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" class="full-width">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+</div>

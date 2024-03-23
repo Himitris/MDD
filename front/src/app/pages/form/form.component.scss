@@ -1,0 +1,15 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  flex-direction: clonu;
+}
+
+.form {
+  width: 500px;
+  margin: auto;
+  mat-form-field {
+    width: 100%
+  }
+}
