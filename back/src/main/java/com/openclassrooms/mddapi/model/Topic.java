@@ -4,12 +4,13 @@ import lombok.*;
 
 import java.util.List;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Data
 @Entity
 @Table(name = "TOPIC")
+@NoArgsConstructor
 public class Topic {
 
     @Id

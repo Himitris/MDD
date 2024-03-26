@@ -2,12 +2,13 @@ package com.openclassrooms.mddapi.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Data
 @Entity
 @Table(name = "COMMENT")
+@NoArgsConstructor
 public class Comment {
 
     @Id

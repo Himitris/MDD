@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.CommentRequest;
@@ -17,6 +19,7 @@ import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.CommentService;
 
 @RestController
+@RequestMapping("/api")
 public class CommentController {
 
     @Autowired
@@ -27,10 +30,11 @@ public class CommentController {
         return new BCryptPasswordEncoder();
     }
 
-    @PostMapping("/comment")
-    public ResponseEntity<?> addComment(@RequestBody CommentRequest commentRequest) { 
-        Comment comment = new Comment(commentRequest.content);
-        comment.setArticleId(commentRequest.article);
+    @PostMapping("/comment/{id}")
+    public ResponseEntity<?> addComment(@RequestBody CommentRequest commentRequest, @PathVariable Long id) { 
+        Comment comment = new Comment();
+        comment.setContent(commentRequest.content);
+        comment.setArticleId(id);
         // Récupérez l'utilisateur courant à partir du contexte de sécurité
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();

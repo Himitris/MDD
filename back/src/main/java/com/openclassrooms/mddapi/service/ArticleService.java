@@ -23,4 +23,8 @@ public class ArticleService {
     public void save(Article article) {
         this.articleRepository.save(article);
     }
+
+    public List<Article> findAll() {
+        return articleRepository.findAll();
+    }
 }

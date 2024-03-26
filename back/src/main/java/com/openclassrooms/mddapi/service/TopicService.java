@@ -1,7 +1,5 @@
 package com.openclassrooms.mddapi.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Topic;

@@ -4,14 +4,16 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+
 @Data
 @Entity
-@Table(name = "ARTICLE")
+@Table(name = "ARTICLES")
+@NoArgsConstructor
 public class Article {
 
     @Id

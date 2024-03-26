@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.openclassrooms.mddapi.model.User;
+
 import java.security.Key;
 import java.util.Date;
 
@@ -17,7 +19,7 @@ public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${app.jwt-secret}")
+    @Value("${app.jwtSecret}")
     private String jwtSecret;
 
     @Value("${app.jwtExpirationMs}")
@@ -25,11 +27,12 @@ public class JwtTokenProvider {
 
     // Générer le token
     public String generateToken(Authentication authentication){
-        String username = authentication.getName();
+        User userDetails = (User) authentication.getPrincipal();
+        String email = userDetails.getEmail();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(key())
