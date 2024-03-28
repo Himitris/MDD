@@ -15,7 +15,7 @@ export class SessionService {
     return this.isLoggedSubject.asObservable();
   }
 
-  public logIn(user: SessionInformation): void {    
+  public logIn(user: SessionInformation): void {
     this.sessionInformation = user;
     this.isLogged = true;
     this.next();

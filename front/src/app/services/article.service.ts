@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Article } from '../interfaces/article.interface';
 import { MessageResponse } from '../interfaces/messageResponse.interface';
+import { Feed } from '../interfaces/feed.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,10 @@ export class ArticleService {
 
   public all(): Observable<Article[]> {
     return this.httpClient.get<Article[]>(this.pathService);
+  }
+
+  public feed(): Observable<Feed> {
+    return this.httpClient.get<Feed>(`${this.pathService}/feed`);
   }
 
   public detail(id: string): Observable<Article> {

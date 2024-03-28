@@ -7,8 +7,6 @@ export class UnauthGuard implements CanActivate {
   constructor(private router: Router, private sessionService: SessionService) {}
 
   public canActivate(): boolean {
-    console.log(this.sessionService.isLogged);
-    
     if (this.sessionService.isLogged) {
       this.router.navigate(['articles']);
       return false;

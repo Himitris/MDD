@@ -21,4 +21,8 @@ public class CommentService {
     public void save(Comment comment) {
         this.commentRepository.save(comment);
     }
+
+    public Iterable<Comment> findByArticleId(Long id) {
+        return commentRepository.findByArticleId(id);
+    }
 }

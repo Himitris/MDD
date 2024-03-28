@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class CommentController {
         return new BCryptPasswordEncoder();
     }
 
-    @PostMapping("/comment/{id}")
+    @PostMapping("{id}/comment")
     public ResponseEntity<?> addComment(@RequestBody CommentRequest commentRequest, @PathVariable Long id) { 
         Comment comment = new Comment();
         comment.setContent(commentRequest.content);
@@ -42,6 +43,11 @@ public class CommentController {
         comment.setUserId(currentUserId);
         commentService.save(comment);
         return new ResponseEntity<>(new CommentResponse("Comment posted !"), HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}/comment")
+    public Iterable<Comment> getComments( @PathVariable Long id) { 
+        return commentService.findByArticleId(id);
     }
 
 }

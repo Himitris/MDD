@@ -21,6 +21,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormComponent } from './pages/form/form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserComponent } from './pages/user/user.component';
+import { TopicsComponent } from './pages/topics/topics.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +37,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ArticlesComponent,
     DetailsComponent,
     FormComponent,
+    UserComponent,
+    TopicsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +54,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatGridListModule,
+    FormsModule
   ],
   providers: [
     {

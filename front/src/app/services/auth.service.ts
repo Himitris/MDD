@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { LoginRequest } from '../interfaces/loginRequest.interface';
 import { RegisterRequest } from '../interfaces/registerRequest.interface';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
+import { ModifyUserRequest } from '../interfaces/modifyUserRequest.interface';
+import { Message } from '../interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +26,13 @@ export class AuthService {
     return this.httpClient.post<SessionInformation>(
       `${this.pathService}/login`,
       loginRequest
+    );
+  }
+
+  public saveInfos(modifyUserRequest: ModifyUserRequest): Observable<Message> {    
+    return this.httpClient.put<Message>(
+      `${this.pathService}/user`,
+      modifyUserRequest
     );
   }
 }

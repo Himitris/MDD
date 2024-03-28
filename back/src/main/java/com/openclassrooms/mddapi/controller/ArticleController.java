@@ -1,7 +1,9 @@
 package com.openclassrooms.mddapi.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,22 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.dto.ArticleRequest;
 import com.openclassrooms.mddapi.dto.CommentResponse;
 import com.openclassrooms.mddapi.model.Article;
+import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.ArticleService;
+import com.openclassrooms.mddapi.service.TopicService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/article")
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    
+    @Autowired
+    private TopicService topicService;
 
     @Autowired
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @PostMapping("/article")
+    @PostMapping("")
     public ResponseEntity<?> addArticle(@RequestBody ArticleRequest articleRequest) { 
         Article article = new Article();
         article.setTitle(articleRequest.title);
@@ -53,13 +60,32 @@ public class ArticleController {
         return new ResponseEntity<>(new CommentResponse("Article posted !"), HttpStatus.CREATED);
     }
 
-    @GetMapping("/article")
+    @GetMapping("")
     public ResponseEntity<List<Article>> getArticles() { 
         return new ResponseEntity<>(articleService.findAll(), HttpStatus.CREATED);
     }
 
-    @GetMapping("/article/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Article> getArticle(@PathVariable("id") Long id) { 
         return new ResponseEntity<>(articleService.findById(id), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/feed")
+    public ResponseEntity<Map<String, List<Article>>> getArticlesForFeed() {
+        // Récupérer l'utilisateur courant à partir du contexte de sécurité
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        Long currentUserId = currentUser.getId();
+
+        // Récupérer les topics suivis par l'utilisateur courant
+        List<Topic> userTopics = topicService.getFollowedTopics(currentUserId);
+        Map<String, List<Article>> response = new HashMap<>();
+        for (Topic topic : userTopics) {
+            List<Article> topicArticles = articleService.findByTopicId(topic.getId());
+            if (!topicArticles.isEmpty()) { // Vérifier si des articles ont été trouvés
+                response.put(topic.getTitle(), topicArticles);
+            }
+        }
+        return ResponseEntity.ok(response);
     }
 }

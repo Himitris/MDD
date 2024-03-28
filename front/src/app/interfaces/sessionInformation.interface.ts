@@ -1,9 +1,8 @@
 export interface SessionInformation {
   token: string;
-  type: string;
   id: number;
   username: string;
-  firstName: string;
-  lastName: string;
-  admin: boolean;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
 }

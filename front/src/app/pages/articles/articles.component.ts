@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Article } from 'src/app/interfaces/article.interface';
+import { Feed } from 'src/app/interfaces/feed.interface';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { ArticleService } from 'src/app/services/article.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -11,6 +12,7 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent {
+  public feed$: Observable<Feed> = this.articleService.feed();
   public articles$: Observable<Article[]> = this.articleService.all();
   constructor(
     private sessionService: SessionService,
