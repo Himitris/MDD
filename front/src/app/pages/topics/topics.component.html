@@ -2,8 +2,8 @@
     <app-header></app-header>
     <div class="list">
         <mat-card>
-            <div class="" fxLayout="row wrap" fxLayout.lt-md="column">
-                <mat-card class="item" *ngFor="let topic of (topics$ | async)" fxFlex>
+            <div class="">
+                <mat-card class="item" *ngFor="let topic of (topics$ | async)" >
                     <mat-card-header>
                         <mat-card-title>{{ topic.title }}</mat-card-title>
                     </mat-card-header>

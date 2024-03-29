@@ -1,27 +1,40 @@
 <div class="container">
     <app-header></app-header>
-    <div class="list">
+    <div >
         <mat-card>
             <button mat-icon-button routerLink="/articles">
                 <mat-icon aria-hidden="false" aria-label="Back" fontIcon="arrow_back" class="icon"></mat-icon>
             </button>
-            <div class="items mt2" fxLayout="row wrap" fxLayout.lt-md="column">
-                <mat-card class="item" *ngIf="article$ | async as article" fxFlex>
+            <div class="items mt2">
+                <mat-card class="item" *ngIf="article$ | async as article" >
                     <mat-card-header>
                         <mat-card-title>{{ article.title }}</mat-card-title>
                         <mat-card-subtitle>
-                            Session created {{ article.created_at | date: 'longDate'}}
+                            Article créé le {{ article.createdAt | date: 'dd/MM/yy, à HH:mm'}}
                         </mat-card-subtitle>
                     </mat-card-header>
-                    <div mat-card-image fxLayoutAlign="center center">
-                        <img class="picture" src="" alt="img">
-                    </div>
                     <mat-card-content>
                         <p>
                             {{ article.content }}
                         </p>
                     </mat-card-content>
                 </mat-card>
+            </div>
+        </mat-card>
+        <mat-card>
+            <mat-card-title>Commentaires</mat-card-title>
+            <div *ngIf="comments$ | async as comments">
+                <mat-card class="commentList" *ngFor="let comment of comments">
+                    <p class="user">{{comment.authorUsername}}</p>
+                    <p>{{comment.content}}</p>
+                </mat-card>
+            </div>
+            <div class="comment">
+                <mat-form-field appearance="outline">
+                    <mat-label>Ecrivez ici votre commentaire</mat-label>
+                    <input matInput maxlength="2000" [(ngModel)]="commentContent" (keydown.enter)="sendComment()">
+                </mat-form-field>
+                <mat-icon aria-hidden="false" aria-label="Send" fontIcon="send" class="icon" (click)="sendComment()"></mat-icon>
             </div>
         </mat-card>
     </div>

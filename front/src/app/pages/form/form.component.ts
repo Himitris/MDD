@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Article } from 'src/app/interfaces/article.interface';
 import { ArticleRequest } from 'src/app/interfaces/articleRequest.interface';
-import { MessageResponse } from 'src/app/interfaces/messageResponse.interface';
+import { Message } from 'src/app/interfaces/message.interface';
 import { ArticleService } from 'src/app/services/article.service';
 import { TopicService } from 'src/app/services/topic.service';
 
@@ -34,7 +33,7 @@ export class FormComponent implements OnInit {
 
     this.articleService
       .create(article)
-      .subscribe((_: MessageResponse) => this.exitPage('Article created !'));
+      .subscribe((_: Message) => this.exitPage('Article created !'));
   }
 
   private initForm(article?: ArticleRequest): void {

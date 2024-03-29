@@ -40,6 +40,7 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
         Long currentUserId = currentUser.getId();
+        comment.setAuthorUsername(currentUser.getUsername());
         comment.setUserId(currentUserId);
         commentService.save(comment);
         return new ResponseEntity<>(new CommentResponse("Comment posted !"), HttpStatus.CREATED);

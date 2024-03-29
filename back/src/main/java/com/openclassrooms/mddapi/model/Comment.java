@@ -24,4 +24,7 @@ public class Comment {
     @NonNull
     private String content;
 
+    @Column(name = "author_username")
+    private String authorUsername;
+
 }

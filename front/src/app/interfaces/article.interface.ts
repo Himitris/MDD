@@ -4,7 +4,7 @@ export interface Article {
   content: string;
   author_id: Date;
   topic_id: Date;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 

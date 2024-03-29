@@ -1,16 +1,17 @@
-<div class="create m3">
+<div class="container">
     <app-header></app-header>
     <mat-card>
-        <mat-card-title>
-            <div fxLayoutAlign="start center">
+        <mat-card-header>
+            <div>
                 <button mat-icon-button routerLink="/articles">
                     <mat-icon>arrow_back</mat-icon>
                 </button>
             </div>
-        </mat-card-title>
+        </mat-card-header>
+        <mat-card-title>Créer un nouvel article</mat-card-title>
         <mat-card-content *ngIf="articleForm">
             <div class="form-container">
-                <form class="form" fxLayoutAlign="center center" [formGroup]="articleForm"
+                <form class="form"[formGroup]="articleForm"
                     (ngSubmit)="submit()"><mat-form-field appearance="outline">
                         <mat-label>Selectionner un thème</mat-label>
                         <mat-select ngDefaultControl formControlName="topic">
@@ -19,15 +20,15 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field appearance="outline" class="" fxFlex>
+                    <mat-form-field appearance="outline" class="" >
                         <mat-label>Titre de l'article</mat-label>
-                        <input matInput formControlName="title">
+                        <input matInput formControlName="title" maxlength="50">
                     </mat-form-field>
-                    <mat-form-field appearance="outline" fxFlex>
+                    <mat-form-field appearance="outline" >
                         <mat-label>Contenu de l'article</mat-label>
-                        <textarea matInput rows="8" formControlName="content"></textarea>
+                        <textarea matInput rows="8" formControlName="content" maxlength="10000"></textarea>
                     </mat-form-field>
-                    <div fxLayoutAlign="center center">
+                    <div>
                         <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid">
                             Save
                         </button>

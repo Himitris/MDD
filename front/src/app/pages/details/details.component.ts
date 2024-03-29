@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { Article } from 'src/app/interfaces/article.interface';
-import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
+import { Comment } from 'src/app/interfaces/comment.interface';
 import { ArticleService } from 'src/app/services/article.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -13,20 +15,41 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class DetailsComponent implements OnInit {
   article$: Observable<Article> | undefined;
+  comments$: Observable<Comment[]> | undefined;
   loading: boolean = false;
+  articleId: string = "";
+  commentContent: string = "";
+  private subscription?: Subscription;
 
   constructor(
     private sessionService: SessionService,
     private articleService: ArticleService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private matSnackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
-    this.article$ = this.articleService.detail(this.route.snapshot.params['id']);
+    this.articleId = this.route.snapshot.params['id'];
+    this.article$ = this.articleService.detail(this.articleId);
+    this.comments$ = this.articleService.getComments(this.articleId);
   }
 
-  get user(): SessionInformation | undefined {
-    return this.sessionService.sessionInformation;
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
+
+  sendComment() {
+    if (this.commentContent != "") {
+      this.subscription = this.articleService.sendComment(this.articleId, this.commentContent).subscribe(response=>{
+        this.commentContent = "";
+        this.comments$ = this.articleService.getComments(this.articleId);
+        this.matSnackBar.open(response.message, 'Close', { duration: 3000 });
+      });
+    } else {
+      this.matSnackBar.open('Commentaire vide', 'Close', { duration: 3000 });
+    }
+  }
+  
 }
