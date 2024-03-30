@@ -7,6 +7,12 @@
 }
 
 button {
-  width: 200px;
+  width: 40%;
+}
+
+.bouton-group{
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
 }
 

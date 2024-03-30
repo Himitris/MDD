@@ -25,6 +25,8 @@ import { UserComponent } from './pages/user/user.component';
 import { TopicsComponent } from './pages/topics/topics.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
+import {MatMenuModule} from '@angular/material/menu';
+import { SortByPipe } from './sortByPipe'
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     FormComponent,
     UserComponent,
     TopicsComponent,
+    SortByPipe
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatSnackBarModule,
     MatGridListModule,
-    FormsModule
+    FormsModule,
+    MatMenuModule
   ],
   providers: [
     {

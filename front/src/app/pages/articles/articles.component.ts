@@ -14,18 +14,14 @@ import { SessionService } from 'src/app/services/session.service';
 export class ArticlesComponent {
   public feed$: Observable<Feed> = this.articleService.feed();
   public articles$: Observable<Article[]> = this.articleService.all();
+  public sortBy: 'title' | 'date' = 'title';
 
   constructor(
-    private sessionService: SessionService,
     private articleService: ArticleService
   ) { }
 
-  get user(): SessionInformation | undefined {
-    return this.sessionService.sessionInformation;
-  }
-
-  sortArticles(): void {
-    //TODO : sort articles
+  changeSortBy(sort: "title" | "date"): void {
+    this.sortBy = sort;
   }
 
   truncateContent(content: string): string {

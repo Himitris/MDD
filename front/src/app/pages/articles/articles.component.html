@@ -6,16 +6,24 @@
               <mat-icon>add</mat-icon>
               Créer un article
             </button>
-            <button mat-raised-button (click)="sortArticles()">
-              <mat-icon>sort</mat-icon>
-              Trier par
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeSortBy('title')">
+                    Trier par Titre
+                </button>
+                <button mat-menu-item (click)="changeSortBy('date')">
+                    Trier par Date
+                </button>
+            </mat-menu>
+            <button mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>sort</mat-icon>
+                Trier par
             </button>
           </div>
           <mat-card-title *ngIf="(feed$ | async)?.['length']">Abonnements</mat-card-title>
         <mat-card *ngFor="let topic of (feed$ | async) | keyvalue">
             <mat-card-title>{{ topic.key }}</mat-card-title>
             <mat-card-content class="items">
-                <div class="item" *ngFor="let article of topic.value">
+                <div class="item" *ngFor="let article of topic.value | sortBy: sortBy">
                     <mat-card>
                         <mat-card-header>
                             <mat-card-title>{{ article.title }}</mat-card-title>
@@ -41,7 +49,7 @@
         <mat-card-title *ngIf="(articles$ | async)?.['length']">Tous les articles</mat-card-title>
         <mat-card-title *ngIf="!(articles$ | async)?.['length']">Pas d'articles pour le moment</mat-card-title>
         <div class="items" >
-            <div class="item" *ngFor="let article of (articles$ | async)">
+            <div class="item" *ngFor="let article of (articles$ | async | sortBy: sortBy)">
                 <mat-card>
                 <mat-card-header>
                     <mat-card-title>{{ article.title }}</mat-card-title>
