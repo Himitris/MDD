@@ -23,10 +23,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserComponent } from './pages/user/user.component';
 import { TopicsComponent } from './pages/topics/topics.component';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
-import {MatMenuModule} from '@angular/material/menu';
-import { SortByPipe } from './sortByPipe'
+import { MatMenuModule } from '@angular/material/menu';
+import { SortByPipe } from './sortByPipe';
 
 
 @NgModule({
@@ -70,4 +70,4 @@ import { SortByPipe } from './sortByPipe'
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

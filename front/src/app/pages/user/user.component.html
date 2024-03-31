@@ -1,8 +1,7 @@
 <app-header></app-header>
-<mat-card>
+<mat-card class="user-infos">
     <mat-card-title>Profil utilisateur</mat-card-title>
-    <mat-card-content>
-        <div *ngIf="user">
+        <div class="user-content" *ngIf="user">
             <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
                 <input matInput placeholder="Username" [(ngModel)]="user.username">
@@ -14,18 +13,17 @@
             <button mat-raised-button color="primary" (click)="saveInfos()">Sauvegarder</button>
             <button mat-button color="warn" (click)="logOut()">Se déconnecter</button>
         </div>
-    </mat-card-content>
   </mat-card>
   <mat-card>
     <mat-card-title>Abonnements</mat-card-title>
     <mat-card-content>
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile *ngFor="let topic of topics ">
-          <mat-card>
+          <div class="topic-item">
             <mat-card-title>{{topic.title}}</mat-card-title>
             <mat-card-content>{{topic.description}}</mat-card-content>
-            <button mat-raised-button color="accent" (click)="unsubscribe(topic.id)">Se désabonner</button>
-          </mat-card>
+            <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)">Se désabonner</button>
+          </div>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-content>

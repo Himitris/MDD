@@ -1,25 +1,21 @@
 <div class="container">
     <app-header></app-header>
     <div class="list">
-        <mat-card>
-            <div class="">
-                <mat-card class="item" *ngFor="let topic of (topics$ | async)" >
-                    <mat-card-header>
-                        <mat-card-title>{{ topic.title }}</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <p>
-                            {{ topic.description }}
-                        </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-raised-button (click)="toggleSubscription(topic.id)" color="primary">
-                            <mat-icon>{{ isSubscribed(topic.id) ? 'remove' : 'add' }}</mat-icon>
-                            <span class="ml1">{{ isSubscribed(topic.id) ? 'Se désabonner' : 'S\'abonner' }}</span>
-                        </button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
+        <mat-card class="item" *ngFor="let topic of (topics$ | async)" >
+            <mat-card-header>
+                <mat-card-title>{{ topic.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    {{ topic.description }}
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="toggleSubscription(topic.id)" color="primary">
+                    <mat-icon>{{ isSubscribed(topic.id) ? 'remove' : 'add' }}</mat-icon>
+                    <span class="ml1">{{ isSubscribed(topic.id) ? 'Se désabonner' : 'S\'abonner' }}</span>
+                </button>
+            </mat-card-actions>
         </mat-card>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="!loading" class="container">
     <app-header></app-header>
     <div class="list">
         <div class="header">
@@ -14,7 +14,7 @@
                     Trier par Date
                 </button>
             </mat-menu>
-            <button mat-raised-button [matMenuTriggerFor]="menu">
+            <button mat-raised-button class="button" [matMenuTriggerFor]="menu">
                 <mat-icon>sort</mat-icon>
                 Trier par
             </button>
@@ -72,4 +72,8 @@
         </div>
         </div>
     </div>
+</div>
+<div *ngIf="loading">
+    <app-header></app-header>
+    <mat-spinner></mat-spinner>
 </div>

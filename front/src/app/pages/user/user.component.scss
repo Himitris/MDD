@@ -1,23 +1,36 @@
+.user-infos {
+  text-align: center;
+}
 mat-card {
     margin: 16px;
-  
-    &-title {
-      background-color: #f0f0f0;
-      color: #333;
-    }
-  
-    &-content {
+    box-shadow: none;
+
+    .user-content {
+      margin-top: 25px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-  
-      mat-form-field {
-        width: 100%;
-      }
+      align-items: center;
+    }
+    
+    mat-form-field {
+      width: 40%;
     }
   
     button {
       margin-top: 8px;
+    }
+  }
+
+  .topic-item {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 20% 50% 30%;
+    background-color: rgb(228, 228, 228);
+    margin: 8px;
+    padding: 8px;
+    height: 160px;
+    button{
+      width: 140px;
     }
   }
   
@@ -49,27 +62,5 @@ mat-card {
         }
       }
     }
-  }
-  
-  .accent {
-    background-color: #9C27B0;
-    color: #fff;
-  
-    &:hover {
-      background-color: darken(#9C27B0, 5%);
-    }
-  }
-  
-  .primary {
-    background-color: #673AB7;
-    color: #fff;
-  
-    &:hover {
-      background-color: darken(#673AB7, 5%);
-    }
-  }
-  
-  .warn {
-    color: #F44336;
   }
   

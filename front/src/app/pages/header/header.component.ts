@@ -16,6 +16,18 @@ export class HeaderComponent implements OnInit {
   isAuthenticated(): boolean {
     const currentUrl = this.router.url;
     return currentUrl !== '/login' && currentUrl !== '/register';
-}
+  }
+
+  isOnArticlesPage(): boolean {
+    return this.router.url === '/articles';
+  }
+
+  isOnThemesPage(): boolean {
+    return this.router.url === '/themes';
+  }
+
+  isOnUserPage(): boolean {
+    return this.router.url === '/user';
+  }
 
 }
