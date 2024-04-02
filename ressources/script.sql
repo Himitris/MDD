@@ -6,6 +6,7 @@ CREATE TABLE `TOPIC` (
 
 CREATE TABLE `COMMENT` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `author_username` varchar(40),
   `author_id` int,
   `article_id` int,
   `content` VARCHAR(2000)
