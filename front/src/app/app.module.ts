@@ -27,6 +27,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { SortByPipe } from './sortByPipe';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { SortByPipe } from './sortByPipe';
     FormComponent,
     UserComponent,
     TopicsComponent,
-    SortByPipe
+    SortByPipe,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +60,8 @@ import { SortByPipe } from './sortByPipe';
     MatSnackBarModule,
     MatGridListModule,
     FormsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSidenavModule,
   ],
   providers: [
     {
@@ -70,4 +72,4 @@ import { SortByPipe } from './sortByPipe';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

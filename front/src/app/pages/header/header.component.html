@@ -9,4 +9,23 @@
             <mat-icon>person</mat-icon>
         </button>
     </div>
+    <button mat-icon-button class="mobile-menu-icon" (click)="toggleMobileMenu()" *ngIf="isAuthenticated()">
+        <mat-icon>menu</mat-icon>
+    </button>
 </div>
+
+<mat-sidenav-container class="mobile-menu-container" [style.marginLeft.px]="isMobileMenuOpen ? 0 : -250" >
+    <mat-sidenav #sidenav mode="over" class="mobile-menu" (openedChange)="onMenuOpened($event)">
+        <div class="buttons">
+            <button mat-button class="top-button" [color]="isOnArticlesPage() ? 'accent' : 'primary'"
+                routerLink="/articles">Articles</button>
+            <button mat-button class="top-button" [color]="isOnThemesPage() ? 'accent' : 'primary'" routerLink="/themes">Themes</button>
+            <button mat-icon-button class="bottom-button" [color]="isOnUserPage() ? 'accent' : 'primary'" routerLink="/user">
+                <mat-icon>person</mat-icon>
+            </button>
+            <button mat-button color="primary" (click)="toggleMobileMenu()">Close</button>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>
+
+<div class="overlay" *ngIf="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>

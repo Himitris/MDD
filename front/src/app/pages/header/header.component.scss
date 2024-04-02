@@ -13,9 +13,72 @@ img {
   width: 100%;
 }
 
+/* Ajout de styles pour l'overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998; /* Assure que l'overlay est en dessous de la barre latérale */
+    display: none;
+}
+/* Afficher l'overlay lorsqu'on ouvre la barre latérale */
+.mobile-menu-container.mat-drawer-opened + .overlay {
+    display: block;
+}
+
 .header-actions {
-  display: flex; 
+  display: flex;
   align-items: center;
-  gap: 16px; 
+  gap: 16px;
   margin-right: 50px;
+}
+
+/* Masquer l'icône de menu mobile par défaut */
+.mobile-menu-icon {
+  display: none;
+}
+
+/* Menu mobile */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0; /* Positionner le menu mobile sur le côté droit de l'écran */
+  width: 200px;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 1000;
+  padding-top: 60px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: none; /* Masquer le menu mobile par défaut */
+}
+
+/* Afficher l'icône de menu mobile et masquer les boutons d'action sur les écrans de 650 pixels ou moins */
+@media (max-width: 650px) {
+  .header-actions {
+    display: none;
+  }
+
+  .mobile-menu-icon {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .top-button {
+      margin-bottom: auto;
+    }
+
+    .bottom-button {
+      margin-top: auto;
+    }
+  }
 }

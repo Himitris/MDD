@@ -10,9 +10,27 @@ button {
   width: 40%;
 }
 
-.bouton-group{
+.bouton-group {
   width: 50%;
   display: flex;
   justify-content: space-between;
 }
 
+@media (max-width: 650px) {
+  .img {
+    width: 70%;
+    margin-bottom: 40px;
+  }
+
+  button {
+    width: 90%;
+  }
+  .bouton-group {
+    align-items: center;
+    width: 50%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

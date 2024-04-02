@@ -34,7 +34,9 @@
                     <mat-label>Ecrivez ici votre commentaire</mat-label>
                     <input matInput maxlength="2000" [(ngModel)]="commentContent" (keydown.enter)="sendComment()">
                 </mat-form-field>
-                <mat-icon aria-hidden="false" aria-label="Send" fontIcon="send" class="icon" (click)="sendComment()"></mat-icon>
+                <button mat-icon-button color="primary"  (click)="sendComment()">
+                    <mat-icon>send</mat-icon>
+                </button>
             </div>
         </mat-card>
     </div>
