@@ -1,22 +1,23 @@
 <div class="container">
     <app-header></app-header>
     <div class="page">
-        <button mat-icon-button (click)="home()">
+        <button mat-icon-button routerLink="/">
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_back" class="icon"></mat-icon>
         </button>
         <img src="/assets/logo_p6.png" alt="logo" />
         <mat-card-title>S'inscrire</mat-card-title>
         <div class="form-container">
-            <form class="form">
+            <form class="form" [formGroup]="form" (ngSubmit)="submit()">
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Nom d'utilisateur">
+                    <input matInput placeholder="Nom d'utilisateur" formControlName="username">
                 </mat-form-field>
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Adresse e-mail">
+                    <input matInput placeholder="Adresse e-mail" formControlName="email"> 
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <mat-label>Entrer votre mot de passe</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'">
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password"
+                        formControlName="password">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                         [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -24,6 +25,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="primary" class="full-width">S'inscrire</button>
+                <p *ngIf="onError" class="error">An error occurred</p>
             </form>
         </div>
     </div>

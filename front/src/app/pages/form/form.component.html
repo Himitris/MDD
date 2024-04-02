@@ -11,8 +11,7 @@
         <mat-card-title>Créer un nouvel article</mat-card-title>
         <mat-card-content *ngIf="articleForm">
             <div class="form-container">
-                <form class="form"[formGroup]="articleForm"
-                    (ngSubmit)="submit()"><mat-form-field appearance="outline">
+                <form class="form" [formGroup]="articleForm" (ngSubmit)="submit()"><mat-form-field appearance="outline">
                         <mat-label>Selectionner un thème</mat-label>
                         <mat-select ngDefaultControl formControlName="topic">
                             <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id">
@@ -20,19 +19,17 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field appearance="outline" class="" >
+                    <mat-form-field appearance="outline" class="">
                         <mat-label>Titre de l'article</mat-label>
                         <input matInput formControlName="title" maxlength="50">
                     </mat-form-field>
-                    <mat-form-field appearance="outline" >
+                    <mat-form-field appearance="outline">
                         <mat-label>Contenu de l'article</mat-label>
                         <textarea matInput rows="8" formControlName="content" maxlength="10000"></textarea>
                     </mat-form-field>
-                    <div>
-                        <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid">
-                            Save
-                        </button>
-                    </div>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid">
+                        Save
+                    </button>
                 </form>
             </div>
         </mat-card-content>

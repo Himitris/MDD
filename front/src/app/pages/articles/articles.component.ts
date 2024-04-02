@@ -3,9 +3,7 @@ import { forkJoin, of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { Article } from 'src/app/interfaces/article.interface';
 import { Feed } from 'src/app/interfaces/feed.interface';
-import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { ArticleService } from 'src/app/services/article.service';
-import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-articles',

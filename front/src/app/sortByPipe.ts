@@ -14,7 +14,7 @@ export class SortByPipe implements PipeTransform {
       if (sortBy === 'title') {
         return a.title.localeCompare(b.title);
       } else if (sortBy === 'date') {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
       return 0;
     });
