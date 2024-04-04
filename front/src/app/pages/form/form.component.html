@@ -21,14 +21,14 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="">
                         <mat-label>Titre de l'article</mat-label>
-                        <input matInput formControlName="title" maxlength="50">
+                        <input matInput formControlName="title" maxlength="35">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>Contenu de l'article</mat-label>
                         <textarea matInput rows="8" formControlName="content" maxlength="10000"></textarea>
                     </mat-form-field>
                     <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid">
-                        Save
+                        Créer
                     </button>
                 </form>
             </div>

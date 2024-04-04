@@ -38,11 +38,14 @@ export class FormComponent implements OnInit {
 
   private initForm(article?: ArticleRequest): void {
     this.articleForm = this.fb.group({
-      title: [article ? article.title : '', [Validators.required]],
+      title: [
+        article ? article.title : '',
+        [Validators.required, Validators.max(35)],
+      ],
       topic: [article ? article.topic : '', [Validators.required]],
       content: [
         article ? article.content : '',
-        [Validators.required, Validators.max(2000)],
+        [Validators.required, Validators.max(10000)],
       ],
     });
   }

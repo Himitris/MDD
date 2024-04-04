@@ -16,15 +16,19 @@
   </mat-card>
   <mat-card>
     <mat-card-title>Abonnements</mat-card-title>
-    <mat-card-content>
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile *ngFor="let topic of topics ">
-          <div class="topic-item">
-            <mat-card-title>{{topic.title}}</mat-card-title>
-            <mat-card-content>{{topic.description}}</mat-card-content>
-            <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)">Se désabonner</button>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-card-content>
+    <div class="list">
+      <mat-card class="item" *ngFor="let topic of topics">
+        <mat-card-header>
+          <mat-card-title>{{ topic.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{ topic.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="unsubscribe(topic.id)">Se désabonner</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </mat-card>

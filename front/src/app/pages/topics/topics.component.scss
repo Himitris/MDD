@@ -1,12 +1,18 @@
-.list{
-    display: grid;
-    grid-template-columns: 50% 50%;
+.list {
+  display: grid;
+  grid-template-columns: 50% 50%;
 
-    .item{
-        margin: 10px;
-        justify-items: center;
-        display: grid;
-        grid-template-rows: 15% 50% 35%;
-        background-color: rgb(228, 228, 228);
-    }
+  .item {
+    margin: 10px;
+    justify-items: center;
+    display: grid;
+    grid-template-rows: 15% 50% 35%;
+    background-color: rgb(228, 228, 228);
+  }
+}
+
+@media (max-width: 640px) {
+  .list {
+    grid-template-columns: 100%;
+  }
 }

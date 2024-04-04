@@ -2,21 +2,25 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Article } from './interfaces/article.interface';
 
 @Pipe({
-  name: 'sortBy'
+  name: 'sortBy',
 })
 export class SortByPipe implements PipeTransform {
-  transform(articles: Article[] | null, sortBy: 'title' | 'date'): Article[] | null {
+  transform(
+    articles: Article[] | null,
+    sortBy: 'dateAsc' | 'dateDesc'
+  ): Article[] | null {
     if (!articles || !sortBy) {
-      return null; // Retourne null si articles ou sortBy est null
+      return null;
     }
 
     return articles.slice().sort((a, b) => {
-      if (sortBy === 'title') {
-        return a.title.localeCompare(b.title);
-      } else if (sortBy === 'date') {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      if (sortBy === 'dateAsc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
       }
-      return 0;
     });
   }
 }

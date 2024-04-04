@@ -3,74 +3,38 @@
     <div class="list">
         <div class="header">
             <button mat-raised-button routerLink="/form" color="primary">
-              <mat-icon>add</mat-icon>
-              Créer un article
+                <mat-icon>add</mat-icon>
+                Créer un article
             </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="changeSortBy('title')">
-                    Trier par nom
-                </button>
-                <button mat-menu-item (click)="changeSortBy('date')">
-                    Trier par date
-                </button>
-            </mat-menu>
-            <button mat-raised-button class="button" [matMenuTriggerFor]="menu">
-                <mat-icon>sort</mat-icon>
-                Trier par {{sortBy == 'title' ? 'nom' : 'date' }}
+            <button mat-raised-button class="button" (click)="changeSortBy()">
+                Trier par date
+                <mat-icon>{{ sortBy === 'dateDesc' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
             </button>
-          </div>
-          <mat-card-title *ngIf="(feed$ | async)?.['length']">Abonnements</mat-card-title>
-        <mat-card *ngFor="let topic of (feed$ | async) | keyvalue">
-            <mat-card-title>{{ topic.key }}</mat-card-title>
-            <mat-card-content class="items">
-                <div class="item" *ngFor="let article of topic.value | sortBy: sortBy">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-title>{{ article.title }}</mat-card-title>
-                            <mat-card-subtitle>
-                                Article créé le {{ article.createdAt | date: 'dd/MM/yy, à HH:mm'}}
-                            </mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <p>
-                                {{ truncateContent(article.content) }}
-                            </p>
-                        </mat-card-content>
-                        <mat-card-actions>
-                            <button mat-raised-button color="primary" [routerLink]="[article.id]">
-                                <mat-icon>search</mat-icon>
-                                <span class="ml1">Detail</span>
-                            </button>
-                        </mat-card-actions>
-                    </mat-card>
-                </div>
-            </mat-card-content>
-        </mat-card>
-        <mat-card-title *ngIf="(articles$ | async)?.['length']">Tous les articles</mat-card-title>
-        <mat-card-title *ngIf="!(articles$ | async)?.['length']">Pas d'articles pour le moment</mat-card-title>
-        <div class="items" >
-            <div class="item" *ngFor="let article of (articles$ | async | sortBy: sortBy)">
+        </div>
+        <mat-card-title *ngIf="feed?.['length']">Abonnements</mat-card-title>
+        <mat-card-content class="items">
+            <div class="item" *ngFor="let article of feed | sortBy: sortBy">
                 <mat-card>
-                <mat-card-header>
-                    <mat-card-title>{{ article.title }}</mat-card-title>
-                    <mat-card-subtitle>
-                        Article créé le {{ article.createdAt | date: 'dd/MM/yy, à HH:mm'}}
-                    </mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <p>
-                        {{ truncateContent(article.content) }}
-                    </p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-raised-button color="primary" [routerLink]="[article.id]">
-                        <mat-icon>search</mat-icon>
-                        <span class="ml1">Detail</span>
-                    </button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
-        </div>
+                    <mat-card-header>
+                        <mat-card-title>{{ article.title }}</mat-card-title>
+                        <mat-card-subtitle>
+                            Créé le {{ article.createdAt | date: dateFormat}}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <p>
+                            {{ truncateContent(article.content) }}
+                        </p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" [routerLink]="[article.id]">
+                            <mat-icon>search</mat-icon>
+                            <span class="ml1">Detail</span>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </mat-card-content>
     </div>
 </div>
 <div *ngIf="loading">

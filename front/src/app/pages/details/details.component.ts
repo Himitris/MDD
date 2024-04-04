@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { Article } from 'src/app/interfaces/article.interface';
 import { Comment } from 'src/app/interfaces/comment.interface';
 import { ArticleService } from 'src/app/services/article.service';
-import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-details',
@@ -22,7 +21,6 @@ export class DetailsComponent implements OnInit {
   private subscription?: Subscription;
 
   constructor(
-    private sessionService: SessionService,
     private articleService: ArticleService,
     private route: ActivatedRoute,
     private matSnackBar: MatSnackBar
