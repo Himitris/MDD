@@ -9,10 +9,10 @@
         <div class="form-container">
             <form class="form" [formGroup]="form" (ngSubmit)="submit()">
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Nom d'utilisateur" formControlName="username">
+                    <input matInput placeholder="Adresse e-mail" formControlName="email">
                 </mat-form-field>
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Adresse e-mail" formControlName="email"> 
+                    <input matInput placeholder="Nom d'utilisateur" formControlName="username">
                 </mat-form-field>
                 <mat-form-field class="full-width">
                     <mat-label>Entrer votre mot de passe</mat-label>
@@ -25,7 +25,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="primary" class="full-width">S'inscrire</button>
-                <p *ngIf="onError" class="error">An error occurred</p>
+                <p *ngIf="errorMessage.length > 0" class="error">{{errorMessage}}</p>
             </form>
         </div>
     </div>

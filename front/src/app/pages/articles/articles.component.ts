@@ -10,7 +10,7 @@ import { ArticleService } from 'src/app/services/article.service';
 })
 export class ArticlesComponent {
   public feed!: Article[] | null;
-  public sortBy: 'dateAsc' | 'dateDesc' = 'dateAsc';
+  public sortBy: 'dateAsc' | 'dateDesc' = 'dateDesc';
   public loading = true;
   private subscription?: Subscription;
   public innerWidth: number;
@@ -51,7 +51,7 @@ export class ArticlesComponent {
   }
 
   truncateContent(content: string): string {
-    const maxLength = this.innerWidth > 768 ? 200 : 85;
+    const maxLength = this.innerWidth > 558 ? 200 : 85;
     if (content.length > maxLength) {
       return content.substring(0, maxLength) + '...';
     }

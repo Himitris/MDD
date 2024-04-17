@@ -1,2 +1,14 @@
-
-<router-outlet></router-outlet>
+<mat-drawer-container class="drawer-container" hasBackdrop="true" (backdropClick)="drawerService.closeDrawer()">
+    <mat-drawer #menu mode="over" [opened]="drawerService.isOpen$ | async" position="end">
+        <div class="buttons">
+            <button mat-button class="top-button" [color]="isOnArticlesPage() ? 'accent' : 'primary'"
+                routerLink="/articles">Articles</button>
+            <button mat-button class="top-button" [color]="isOnThemesPage() ? 'accent' : 'primary'"
+                routerLink="/themes">Themes</button>
+            <button mat-icon-button class="bottom-button" [color]="isOnUserPage() ? 'accent' : 'primary'" routerLink="/user">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+        </div>
+    </mat-drawer>
+    <router-outlet></router-outlet>
+</mat-drawer-container>

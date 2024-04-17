@@ -23,7 +23,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button color="primary" class="full-width">Login</button>
-                <p *ngIf="onError" class="error">An error occurred</p>
+                <p *ngIf="errorMessage.length > 0" class="error">{{errorMessage}}</p>
             </form>
         </div>
     </div>

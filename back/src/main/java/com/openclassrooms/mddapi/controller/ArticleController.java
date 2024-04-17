@@ -49,13 +49,14 @@ public class ArticleController {
         // Récupérez l'utilisateur courant à partir du contexte de sécurité
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        Long currentUserId = currentUser.getId();
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         article.setCreatedAt(currentDateTime);
         article.setUpdatedAt(currentDateTime); 
         article.setTopicId(articleRequest.topic);
-        article.setUserId(currentUserId);
+        article.setUserId(currentUser.getId());
+        article.setAuthorUsername(currentUser.getUsername());
+        article.setTopicName(topicService.findById(articleRequest.topic).getTitle());
         articleService.save(article);
         return new ResponseEntity<>(new CommentResponse("Article posted !"), HttpStatus.CREATED);
     }

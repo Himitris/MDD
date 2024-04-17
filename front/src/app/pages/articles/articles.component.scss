@@ -4,6 +4,11 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+  .subtitle {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
   .header {
     display: flex;
     justify-content: space-between;
@@ -12,6 +17,9 @@
   }
   button {
     box-shadow: none;
+  }
+  .list {
+    width: 100%;
   }
   .items {
     display: grid;
@@ -23,7 +31,7 @@
     mat-card {
       padding-bottom: 15px;
       display: grid;
-      grid-template-rows: 40% 35% 25%;
+      grid-template-rows: 20% 20% 35% 25%;
       background-color: rgb(228, 228, 228);
       height: 87%;
 
@@ -40,7 +48,7 @@
       }
     }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 770px) {
     .items {
       grid-template-columns: 100%;
     }

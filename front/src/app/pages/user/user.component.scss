@@ -38,6 +38,11 @@ mat-card {
   .list {
     grid-template-columns: 100%;
   }
+  mat-card {
+    mat-form-field {
+      width: 90%;
+    }
+  }
 }
 
 @media (max-width: 375px) {

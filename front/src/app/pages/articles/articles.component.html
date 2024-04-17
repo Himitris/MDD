@@ -7,20 +7,20 @@
                 Créer un article
             </button>
             <button mat-raised-button class="button" (click)="changeSortBy()">
-                Trier par date
+                Trier par 
                 <mat-icon>{{ sortBy === 'dateDesc' ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
             </button>
         </div>
-        <mat-card-title *ngIf="feed?.['length']">Abonnements</mat-card-title>
-        <mat-card-content class="items">
+        <mat-card-content *ngIf="feed?.['length']" class="items">
             <div class="item" *ngFor="let article of feed | sortBy: sortBy">
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>{{ article.title }}</mat-card-title>
-                        <mat-card-subtitle>
-                            Créé le {{ article.createdAt | date: dateFormat}}
-                        </mat-card-subtitle>
                     </mat-card-header>
+                    <div class="subtitle">
+                        <p> <b>Créé le:</b> {{ article.createdAt | date: dateFormat}}</p>
+                        <p> <b>Auteur:</b> {{article.authorUsername}} </p>
+                    </div>
                     <mat-card-content>
                         <p>
                             {{ truncateContent(article.content) }}

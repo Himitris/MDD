@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.model.Comment;
@@ -23,6 +24,7 @@ public class CommentService {
     }
 
     public Iterable<Comment> findByArticleId(Long id) {
-        return commentRepository.findByArticleId(id);
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return commentRepository.findByArticleId(id, sort);
     }
 }

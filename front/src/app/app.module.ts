@@ -28,6 +28,7 @@ import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { SortByPipe } from './sortByPipe';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { DrawerService } from './services/drawer.service';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
       useClass: JwtInterceptor,
       multi: true,
     },
+    DrawerService,
   ],
   bootstrap: [AppComponent],
 })

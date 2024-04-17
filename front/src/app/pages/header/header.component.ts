@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DrawerService } from 'src/app/services/drawer.service';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-  isMobileMenuOpen: boolean = false;
-
-  constructor(private router: Router) {}
+  constructor(private router: Router, public drawerService: DrawerService) {}
 
   ngOnInit(): void {}
 
@@ -32,16 +29,7 @@ export class HeaderComponent implements OnInit {
     return this.router.url === '/user';
   }
 
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    if (this.isMobileMenuOpen) {
-      this.sidenav.open();
-    } else {
-      this.sidenav.close();
-    }
-  }
-
-  onMenuOpened(opened: boolean): void {
-    this.isMobileMenuOpen = opened;
+  toggleDrawer() {
+    this.drawerService.toggleDrawer();
   }
 }

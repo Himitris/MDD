@@ -32,6 +32,12 @@ public class Article {
     @Column(name = "topic_id") 
     private Long topicId;
 
+    @Column(name = "author_username") 
+    private String authorUsername;
+
+    @Column(name = "topic_name") 
+    private String topicName;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -1,18 +1,20 @@
 <div class="container">
     <app-header></app-header>
-    <div >
+    <div>
         <mat-card>
             <button mat-icon-button routerLink="/articles">
                 <mat-icon aria-hidden="false" aria-label="Back" fontIcon="arrow_back" class="icon"></mat-icon>
             </button>
             <div class="items mt2">
-                <mat-card class="item" *ngIf="article$ | async as article" >
+                <mat-card class="item" *ngIf="article$ | async as article">
                     <mat-card-header>
                         <mat-card-title>{{ article.title }}</mat-card-title>
-                        <mat-card-subtitle>
-                            Article créé le {{ article.createdAt | date: 'dd/MM/yy, à HH:mm'}}
-                        </mat-card-subtitle>
                     </mat-card-header>
+                    <div class="subtitle">
+                        <p> <b>Créé le:</b> {{ article.createdAt | date: 'dd/MM/yy, à HH:mm'}}</p>
+                        <p> <b>Auteur:</b> {{article.authorUsername}} </p>
+                        <p> <b>Thème:</b> {{article.topicName}}</p>
+                    </div>
                     <mat-card-content>
                         <p>
                             {{ article.content }}
@@ -25,7 +27,7 @@
             <mat-card-title>Commentaires</mat-card-title>
             <div *ngIf="comments$ | async as comments">
                 <mat-card class="commentList" *ngFor="let comment of comments">
-                    <p class="user">{{comment.authorUsername}}</p>
+                    <p class="user"><b>{{comment.authorUsername}}</b></p>
                     <p>{{comment.content}}</p>
                 </mat-card>
             </div>
@@ -34,7 +36,7 @@
                     <mat-label>Ecrivez ici votre commentaire</mat-label>
                     <input matInput maxlength="2000" [(ngModel)]="commentContent" (keydown.enter)="sendComment()">
                 </mat-form-field>
-                <button mat-icon-button color="primary"  (click)="sendComment()">
+                <button mat-icon-button color="primary" (click)="sendComment()">
                     <mat-icon>send</mat-icon>
                 </button>
             </div>

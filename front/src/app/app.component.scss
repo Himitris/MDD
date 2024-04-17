@@ -1,0 +1,24 @@
+mat-drawer {
+  width: 280px;
+}
+.drawer-container{
+  height: 100vh;
+}
+
+.buttons {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 93vh;
+}
+
+.bottom-button {
+  margin-top: auto;
+}
+
+@media (max-width: 425px) {
+  mat-drawer {
+    width: 190px;
+  }
+}

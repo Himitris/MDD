@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping("/auth/register")
     public ResponseEntity<?> addUser(@RequestBody RegisterRequest registerRequest) {
         if (userService.findByEmail(registerRequest.email) != null) {
-            return new ResponseEntity<>("User with the same email already exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Un compte avec le même email existe déjà", HttpStatus.BAD_REQUEST);
         }else {
             User user = new User();
             user.setUsername(registerRequest.username);
@@ -61,7 +61,7 @@ public class UserController {
             String token = userService.authenticate(new LoginRequest(loginRequest.email, loginRequest.password));
             return new ResponseEntity<>(new LoginResponse(token, user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt()), HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>("Incorrect email or password", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Email ou mot de passe incorrect", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -73,6 +73,6 @@ public class UserController {
         currentUser.setEmail(modifyUserRequest.getEmail());
         currentUser.setUsername(modifyUserRequest.getUsername());
         this.userService.save(currentUser);
-        return new ResponseEntity<>(new CommentResponse("User modified successfully"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CommentResponse("Utilisateur modifié avec succès"), HttpStatus.CREATED);
     }
 }

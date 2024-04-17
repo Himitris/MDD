@@ -13,7 +13,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class LoginComponent {
   public hide = true;
-  public onError = false;
+  public errorMessage = "";
 
   public form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -34,7 +34,7 @@ export class LoginComponent {
         this.sessionService.logIn(response);
         this.router.navigate(['/articles']);
       },
-      error: (error) => (this.onError = true),
+      error: (error) => (this.errorMessage = error.error),
     });
   }
 }

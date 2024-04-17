@@ -2,8 +2,10 @@ export interface Article {
   id: number;
   title: string;
   content: string;
-  author_id: Date;
-  topic_id: Date;
+  authorId: number;
+  topicId: number;
+  authorUsername: string;
+  topicName: string;
   createdAt: Date;
   updatedAt: Date;
 }

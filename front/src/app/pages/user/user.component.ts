@@ -74,7 +74,7 @@ export class UserComponent implements OnInit {
         .saveInfos(modifyUserRequest)
         .subscribe((response) => {
           this.matSnackBar.open(
-            response.message + ' Merci de vous reconnecter.',
+            response.message + ', merci de vous reconnecter.',
             'Close',
             { duration: 3000 }
           );

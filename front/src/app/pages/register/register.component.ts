@@ -11,9 +11,9 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   hide: boolean = true;
-  public onError = false;
+  public errorMessage = "";
 
   public form = this.fb.group({
     username: ['', [Validators.required, Validators.min(6)]],
@@ -28,17 +28,30 @@ export class RegisterComponent implements OnInit {
     private sessionService: SessionService
   ) {}
 
-  ngOnInit(): void {}
-
   public submit(): void {
-    const registerRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe({
-      next: (response: SessionInformation) => {
-        this.sessionService.logIn(response);
-        this.router.navigate(['/articles']);
-      },
-      error: (error) => (this.onError = true),
-    });
+    if (this.isPasswordValid()) {
+      const registerRequest = this.form.value as RegisterRequest;
+      this.authService.register(registerRequest).subscribe({
+        next: (response: SessionInformation) => {
+          this.sessionService.logIn(response);
+          this.router.navigate(['/articles']);
+        },
+        error: (error) => (this.errorMessage = error.error),
+      });
+    } else {
+      this.errorMessage =
+        'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
+    }
   }
 
+  private isPasswordValid(): boolean {
+    const passwordControl = this.form.get('password');
+    const password = passwordControl?.value as string; // Type assertion
+    if (password) {
+      const regex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+      return regex.test(password);
+    }
+    return false;
+  }
 }
