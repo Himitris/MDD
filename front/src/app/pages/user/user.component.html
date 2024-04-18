@@ -10,6 +10,15 @@
                 <mat-label>Email</mat-label>
                 <input matInput type="email" placeholder="email@email.fr" [(ngModel)]="user.email">
             </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Mot de passe</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="newPassword">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <p *ngIf="errorMessage.length > 0" class="error">{{errorMessage}}</p>
             <button mat-raised-button color="primary" (click)="saveInfos()">Sauvegarder</button>
             <button mat-button color="warn" (click)="logOut()">Se déconnecter</button>
         </div>

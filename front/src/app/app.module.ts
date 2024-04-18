@@ -10,7 +10,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { HeaderComponent } from './pages/header/header.component';
@@ -29,7 +28,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { SortByPipe } from './sortByPipe';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DrawerService } from './services/drawer.service';
-
 
 @NgModule({
   declarations: [
@@ -64,14 +62,7 @@ import { DrawerService } from './services/drawer.service';
     MatMenuModule,
     MatSidenavModule,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
-    },
-    DrawerService,
-  ],
+  providers: [DrawerService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

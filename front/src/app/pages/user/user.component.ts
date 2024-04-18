@@ -17,8 +17,11 @@ import { TopicService } from 'src/app/services/topic.service';
 export class UserComponent implements OnInit {
   public topics: Topic[] = [];
   public user: SessionInformation | undefined;
+  public newPassword: string = "";
   private subscription?: Subscription;
   public innerWidth: number;
+  public hide = true;
+  public errorMessage = '';
 
   constructor(
     private router: Router,
@@ -31,22 +34,24 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.sessionService.sessionInformation;
-    if (this.user) {
-      this.subscription = this.topicService
-        .subscription(this.user.id)
-        .subscribe(
-          (subscribedTopics: Topic[]) => {
-            this.topics = subscribedTopics;
-          },
-          (error) => {
-            console.error(
-              "Une erreur s'est produite lors de la récupération des abonnements de l'utilisateur :",
-              error
-            );
-          }
-        );
-    }
+    this.subscription = this.authService
+      .getMe()
+      .subscribe((user: SessionInformation) => {
+        this.user = user;
+        this.subscription = this.topicService
+          .subscription(this.user.id)
+          .subscribe(
+            (subscribedTopics: Topic[]) => {
+              this.topics = subscribedTopics;
+            },
+            (error) => {
+              console.error(
+                "Une erreur s'est produite lors de la récupération des abonnements de l'utilisateur :",
+                error
+              );
+            }
+          );
+      });
   }
   ngOnDestroy(): void {
     if (this.subscription) {
@@ -65,11 +70,14 @@ export class UserComponent implements OnInit {
   }
 
   saveInfos(): void {
-    if (this.user) {
+    if (this.user && this.isPasswordValid() && this.isEmailValid()) {
+      this.errorMessage = '';
       const modifyUserRequest: ModifyUserRequest = {
         username: this.user.username,
         email: this.user.email,
+        password: this.newPassword,
       };
+      this.newPassword = "";
       this.subscription = this.authService
         .saveInfos(modifyUserRequest)
         .subscribe((response) => {
@@ -80,7 +88,28 @@ export class UserComponent implements OnInit {
           );
           this.logOut();
         });
+    } else {
+      this.errorMessage = !this.isPasswordValid()
+        ? 'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.'
+        : "L'adresse email n'est pas valide.";
     }
+  }
+
+  private isPasswordValid(): boolean {
+    const password = this.newPassword;
+    return (
+      !!password &&
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/.test(
+        password
+      )
+    );
+  }
+
+  private isEmailValid(): boolean {
+    const email = this.user?.email;
+    return (
+      !!email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+    );
   }
 
   unsubscribe(topicId: number): void {

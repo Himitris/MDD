@@ -31,6 +31,10 @@ export class AuthService {
     );
   }
 
+  public getMe(): Observable<SessionInformation> {
+    return this.httpClient.get<SessionInformation>(`${this.pathService}/me`);
+  }
+
   public saveInfos(modifyUserRequest: ModifyUserRequest): Observable<Message> {
     return this.httpClient.put<Message>(
       `${this.pathService}/user`,

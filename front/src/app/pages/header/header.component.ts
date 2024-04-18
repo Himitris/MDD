@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DrawerService } from 'src/app/services/drawer.service';
 
@@ -7,10 +7,8 @@ import { DrawerService } from 'src/app/services/drawer.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   constructor(private router: Router, public drawerService: DrawerService) {}
-
-  ngOnInit(): void {}
 
   isAuthenticated(): boolean {
     const currentUrl = this.router.url;

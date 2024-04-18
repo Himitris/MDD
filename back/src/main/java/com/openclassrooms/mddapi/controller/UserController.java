@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,9 @@ import com.openclassrooms.mddapi.dto.RegisterRequest;
 import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.service.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -35,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/auth/register")
-    public ResponseEntity<?> addUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> addUser(@RequestBody RegisterRequest registerRequest, HttpServletResponse response) {
         if (userService.findByEmail(registerRequest.email) != null) {
             return new ResponseEntity<>("Un compte avec le même email existe déjà", HttpStatus.BAD_REQUEST);
         }else {
@@ -50,16 +54,31 @@ public class UserController {
             user.setUpdatedAt(currentDateTime); 
             userService.save(user);
             String token = userService.authenticate(new LoginRequest(registerRequest.email, registerRequest.password));
-            return new ResponseEntity<>(new LoginResponse(token, user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt()), HttpStatus.CREATED);
+
+            // Création du cookie contenant le token
+            Cookie cookie = new Cookie("JWT_TOKEN", token);
+            cookie.setPath("/");
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+            
+            return new ResponseEntity<>(new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt()), HttpStatus.CREATED);
         }   
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> getToken(@RequestBody LoginRequest loginRequest) { 
+    public ResponseEntity<?> getToken(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         User user = userService.findByEmail(loginRequest.email);
-        if (user != null && bCryptPasswordEncoder().matches(loginRequest.password, user.getPassword())) { 
+        if (user != null && bCryptPasswordEncoder().matches(loginRequest.password, user.getPassword())) {
             String token = userService.authenticate(new LoginRequest(loginRequest.email, loginRequest.password));
-            return new ResponseEntity<>(new LoginResponse(token, user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt()), HttpStatus.CREATED);
+
+            // Création du cookie
+            Cookie cookie = new Cookie("JWT_TOKEN", token);
+            cookie.setPath("/");
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+
+            // Informations supplémentaires sans le token
+            return new ResponseEntity<>(new LoginResponse(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt()), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Email ou mot de passe incorrect", HttpStatus.UNAUTHORIZED);
         }
@@ -70,9 +89,18 @@ public class UserController {
         // Récupérez l'utilisateur courant à partir du contexte de sécurité
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        currentUser.setEmail(modifyUserRequest.getEmail());
-        currentUser.setUsername(modifyUserRequest.getUsername());
+        currentUser.setEmail(modifyUserRequest.email);
+        currentUser.setUsername(modifyUserRequest.username);
+        String encodedPassword = bCryptPasswordEncoder().encode(modifyUserRequest.password);
+        currentUser.setPassword(encodedPassword);
         this.userService.save(currentUser);
         return new ResponseEntity<>(new CommentResponse("Utilisateur modifié avec succès"), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/auth/me")
+    public ResponseEntity<?> getMe() { 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        return new ResponseEntity<>(new LoginResponse(currentUser.getId(), currentUser.getUsername(), currentUser.getEmail(), currentUser.getCreatedAt(), currentUser.getUpdatedAt()), HttpStatus.CREATED);
     }
 }
