@@ -1,4 +1,3 @@
-import { Message } from './../../interfaces/message.interface';
 import { SessionInformation } from './../../interfaces/sessionInformation.interface';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -119,11 +118,14 @@ export class UserComponent implements OnInit {
           }
         });
     } else {
-      this.errorMessage = !this.isPasswordValid()
-        ? 'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.'
-        : !this.isEmailValid()
-        ? "L'adresse email n'est pas valide."
-        : 'Aucun modification apportée';
+      if (!this.isPasswordValid()) {
+        this.errorMessage =
+          'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
+      } else if (!this.isEmailValid()) {
+        this.errorMessage = "L'adresse email n'est pas valide.";
+      } else {
+        this.errorMessage = 'Aucun modification apportée';
+      }
     }
   }
 

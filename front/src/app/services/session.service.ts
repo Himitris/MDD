@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
-import { jwtDecode } from 'jwt-decode';
 
 
 
