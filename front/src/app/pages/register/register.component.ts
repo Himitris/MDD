@@ -13,7 +13,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class RegisterComponent {
   hide: boolean = true;
-  public errorMessage = "";
+  public errorMessage = '';
 
   public form = this.fb.group({
     username: ['', [Validators.required, Validators.min(6)]],
@@ -29,7 +29,7 @@ export class RegisterComponent {
   ) {}
 
   public submit(): void {
-    if (this.isPasswordValid()) {
+    if (this.isPasswordValid() && this.isEmailValid()) {
       const registerRequest = this.form.value as RegisterRequest;
       this.authService.register(registerRequest).subscribe({
         next: (response: SessionInformation) => {
@@ -39,8 +39,9 @@ export class RegisterComponent {
         error: (error) => (this.errorMessage = error.error),
       });
     } else {
-      this.errorMessage =
-        'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
+      this.errorMessage = !this.isPasswordValid
+        ? 'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.'
+        : "L'adresse email n'est pas valide.";
     }
   }
 
@@ -53,5 +54,13 @@ export class RegisterComponent {
       return regex.test(password);
     }
     return false;
+  }
+
+  private isEmailValid(): boolean {
+    const emailControl = this.form.get('email');
+    const email = emailControl?.value as string;
+    return (
+      !!email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+    );
   }
 }

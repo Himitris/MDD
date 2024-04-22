@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Article } from './interfaces/article.interface';
+import { Article } from '../interfaces/article.interface';
 
 @Pipe({
   name: 'sortBy',

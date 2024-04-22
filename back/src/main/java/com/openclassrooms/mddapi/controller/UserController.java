@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,15 +87,22 @@ public class UserController {
 
     @PutMapping("/auth/user")
     public ResponseEntity<?> modifyUser(@RequestBody ModifyUserRequest modifyUserRequest) { 
-        // Récupérez l'utilisateur courant à partir du contexte de sécurité
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        currentUser.setEmail(modifyUserRequest.email);
-        currentUser.setUsername(modifyUserRequest.username);
-        String encodedPassword = bCryptPasswordEncoder().encode(modifyUserRequest.password);
-        currentUser.setPassword(encodedPassword);
-        this.userService.save(currentUser);
-        return new ResponseEntity<>(new CommentResponse("Utilisateur modifié avec succès"), HttpStatus.CREATED);
+        User existUser = userService.findByEmail(modifyUserRequest.email);
+        if (existUser != null && !existUser.getId().equals(currentUser.getId())) {
+            return new ResponseEntity<>("Cet email est déjà utilisé", HttpStatus.BAD_REQUEST);
+        } else {
+            // Récupérez l'utilisateur courant à partir du contexte de sécurité
+            currentUser.setEmail(modifyUserRequest.email);
+            currentUser.setUsername(modifyUserRequest.username);
+            if (!modifyUserRequest.password.isEmpty()) {
+                String encodedPassword = bCryptPasswordEncoder().encode(modifyUserRequest.password);
+                currentUser.setPassword(encodedPassword);
+            }
+            this.userService.save(currentUser);
+            return new ResponseEntity<>(new CommentResponse("Utilisateur modifié avec succès"), HttpStatus.CREATED);
+        }
     }
 
     @GetMapping("/auth/me")

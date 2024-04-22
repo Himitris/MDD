@@ -2,6 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SessionInformation } from '../interfaces/sessionInformation.interface';
+import { jwtDecode } from 'jwt-decode';
+
+
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {
@@ -27,7 +30,6 @@ export class SessionService {
   }
 
   public logOut(): void {
-    // Supposer ici que le backend supprime le cookie
     this.document.cookie =
       'JWT_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     this.isLoggedSubject.next(false);

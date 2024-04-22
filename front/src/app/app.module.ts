@@ -25,7 +25,7 @@ import { TopicsComponent } from './pages/topics/topics.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
-import { SortByPipe } from './sortByPipe';
+import { SortByPipe } from './pipe/sortByPipe';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DrawerService } from './services/drawer.service';
 

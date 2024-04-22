@@ -1,13 +1,15 @@
+import { Message } from './../../interfaces/message.interface';
+import { SessionInformation } from './../../interfaces/sessionInformation.interface';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, catchError, of } from 'rxjs';
 import { ModifyUserRequest } from 'src/app/interfaces/modifyUserRequest.interface';
-import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { Topic } from 'src/app/interfaces/topic.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 import { TopicService } from 'src/app/services/topic.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-user',
@@ -16,8 +18,9 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class UserComponent implements OnInit {
   public topics: Topic[] = [];
-  public user: SessionInformation | undefined;
-  public newPassword: string = "";
+  public user!: SessionInformation;
+  public userDataStorage!: SessionInformation;
+  public newPassword: string = '';
   private subscription?: Subscription;
   public innerWidth: number;
   public hide = true;
@@ -38,6 +41,7 @@ export class UserComponent implements OnInit {
       .getMe()
       .subscribe((user: SessionInformation) => {
         this.user = user;
+        this.userDataStorage = cloneDeep(user);
         this.subscription = this.topicService
           .subscription(this.user.id)
           .subscribe(
@@ -69,36 +73,64 @@ export class UserComponent implements OnInit {
     this.router.navigate(['/articles']);
   }
 
+  checkModification() {
+    if (
+      this.userDataStorage.username != this.user.username ||
+      this.userDataStorage.email != this.user.email ||
+      (this.newPassword !== null &&
+        this.newPassword !== undefined &&
+        this.newPassword !== '')
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   saveInfos(): void {
-    if (this.user && this.isPasswordValid() && this.isEmailValid()) {
+    if (
+      this.user &&
+      this.isPasswordValid() &&
+      this.isEmailValid() &&
+      this.checkModification()
+    ) {
       this.errorMessage = '';
       const modifyUserRequest: ModifyUserRequest = {
         username: this.user.username,
         email: this.user.email,
         password: this.newPassword,
       };
-      this.newPassword = "";
+      this.newPassword = '';
       this.subscription = this.authService
         .saveInfos(modifyUserRequest)
+        .pipe(
+          catchError((error) => {
+            this.errorMessage = error.error;
+            return of(null);
+          })
+        )
         .subscribe((response) => {
-          this.matSnackBar.open(
-            response.message + ', merci de vous reconnecter.',
-            'Close',
-            { duration: 3000 }
-          );
-          this.logOut();
+          if (response) {
+            this.matSnackBar.open(
+              response.message + ', merci de vous reconnecter.',
+              'Close',
+              { duration: 3000 }
+            );
+            this.logOut();
+          }
         });
     } else {
       this.errorMessage = !this.isPasswordValid()
         ? 'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.'
-        : "L'adresse email n'est pas valide.";
+        : !this.isEmailValid()
+        ? "L'adresse email n'est pas valide."
+        : 'Aucun modification apportée';
     }
   }
 
   private isPasswordValid(): boolean {
     const password = this.newPassword;
     return (
-      !!password &&
+      !password ||
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/.test(
         password
       )
