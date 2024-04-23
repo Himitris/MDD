@@ -58,7 +58,7 @@ export class TopicsComponent implements OnInit {
     }
   }
 
-  subscribe(topicId: number) {
+  subscribe(topicId: number): void {
     this.subscription = this.topicService.subscribe(topicId).subscribe((response) => {
       this.matSnackBar.open(response.message, 'Close', { duration: 3000 });
       this.subscribedTopics.push(topicId);

@@ -3,7 +3,6 @@ package com.openclassrooms.mddapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,17 +32,11 @@ public class CommentController {
 
     @PostMapping("{id}/comment")
     public ResponseEntity<?> addComment(@RequestBody CommentRequest commentRequest, @PathVariable Long id) { 
-        Comment comment = new Comment();
-        comment.setContent(commentRequest.content);
-        comment.setArticleId(id);
         // Récupérez l'utilisateur courant à partir du contexte de sécurité
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
-        Long currentUserId = currentUser.getId();
-        comment.setAuthorUsername(currentUser.getUsername());
-        comment.setUserId(currentUserId);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Comment comment = Comment.builder().content(commentRequest.content).articleId(id).userId(currentUser.getId()).authorUsername(currentUser.getUsername()).build();
         commentService.save(comment);
-        return new ResponseEntity<>(new CommentResponse("Comment posted !"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CommentResponse("Comment posté !"), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}/comment")

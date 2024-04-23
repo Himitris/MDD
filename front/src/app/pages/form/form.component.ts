@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ArticleRequest } from 'src/app/interfaces/articleRequest.interface';
 import { Message } from 'src/app/interfaces/message.interface';
 import { ArticleService } from 'src/app/services/article.service';
@@ -13,8 +14,9 @@ import { TopicService } from 'src/app/services/topic.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-  public articleForm: FormGroup | undefined;
-  public topics$ = this.topicService.all();
+  articleForm!: FormGroup;
+  topics$ = this.topicService.all();
+  private subscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -28,25 +30,25 @@ export class FormComponent implements OnInit {
     this.initForm();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public submit(): void {
     const article = this.articleForm?.value as ArticleRequest;
 
-    this.articleService
+    this.subscription = this.articleService
       .create(article)
       .subscribe((_: Message) => this.exitPage('Article created !'));
   }
 
-  private initForm(article?: ArticleRequest): void {
+  private initForm(): void {
     this.articleForm = this.fb.group({
-      title: [
-        article ? article.title : '',
-        [Validators.required, Validators.max(35)],
-      ],
-      topic: [article ? article.topic : '', [Validators.required]],
-      content: [
-        article ? article.content : '',
-        [Validators.required, Validators.max(10000)],
-      ],
+      title: ['', [Validators.required, Validators.max(35)]],
+      topic: ['', [Validators.required]],
+      content: ['', [Validators.required, Validators.max(10000)]],
     });
   }
 

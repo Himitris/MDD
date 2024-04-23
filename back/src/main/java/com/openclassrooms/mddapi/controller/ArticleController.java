@@ -81,12 +81,12 @@ public class ArticleController {
         // Récupérer les topics suivis par l'utilisateur courant
         List<Topic> userTopics = topicService.getFollowedTopics(currentUserId);
         Map<String, List<Article>> response = new HashMap<>();
-        for (Topic topic : userTopics) {
+        userTopics.stream().forEach(topic -> {
             List<Article> topicArticles = articleService.findByTopicId(topic.getId());
-            if (!topicArticles.isEmpty()) { // Vérifier si des articles ont été trouvés
+            if (!topicArticles.isEmpty()) {
                 response.put(topic.getTitle(), topicArticles);
             }
-        }
+        });
         return ResponseEntity.ok(response);
     }
 }

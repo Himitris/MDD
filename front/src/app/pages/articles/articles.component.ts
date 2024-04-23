@@ -11,12 +11,12 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent {
-  public feed!: Article[] | null;
-  public sortBy: 'dateAsc' | 'dateDesc' = 'dateDesc';
-  public loading = true;
+  feed!: Article[] | null;
+  sortBy: 'dateAsc' | 'dateDesc' = 'dateDesc';
+  loading = true;
   private subscription?: Subscription;
-  public innerWidth: number;
-  public dateFormat: string = 'dd/MM/yy, à HH:mm';
+  innerWidth: number;
+  dateFormat: string = 'dd/MM/yy, à HH:mm';
 
   constructor(
     private articleService: ArticleService,

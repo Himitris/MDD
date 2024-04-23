@@ -16,14 +16,14 @@ import { cloneDeep } from 'lodash';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  public topics: Topic[] = [];
-  public user!: SessionInformation;
-  public userDataStorage!: SessionInformation;
-  public newPassword: string = '';
+  topics: Topic[] = [];
+  user!: SessionInformation;
+  userDataStorage!: SessionInformation;
+  newPassword: string = '';
   private subscription?: Subscription;
-  public innerWidth: number;
-  public hide = true;
-  public errorMessage = '';
+  innerWidth: number;
+  hide = true;
+  errorMessage = '';
 
   constructor(
     private router: Router,
@@ -117,15 +117,13 @@ export class UserComponent implements OnInit {
             this.logOut();
           }
         });
+    } else if (!this.isPasswordValid()) {
+      this.errorMessage =
+        'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
+    } else if (!this.isEmailValid()) {
+      this.errorMessage = "L'adresse email n'est pas valide.";
     } else {
-      if (!this.isPasswordValid()) {
-        this.errorMessage =
-          'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
-      } else if (!this.isEmailValid()) {
-        this.errorMessage = "L'adresse email n'est pas valide.";
-      } else {
-        this.errorMessage = 'Aucun modification apportée';
-      }
+      this.errorMessage = 'Aucun modification apportée';
     }
   }
 

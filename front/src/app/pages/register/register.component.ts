@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { RegisterRequest } from 'src/app/interfaces/registerRequest.interface';
 import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +14,8 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class RegisterComponent {
   hide: boolean = true;
-  public errorMessage = '';
+  errorMessage = '';
+  private subscription?: Subscription;
 
   public form = this.fb.group({
     username: ['', [Validators.required, Validators.min(6)]],
@@ -28,10 +30,16 @@ export class RegisterComponent {
     private sessionService: SessionService
   ) {}
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   public submit(): void {
     if (this.isPasswordValid() && this.isEmailValid()) {
       const registerRequest = this.form.value as RegisterRequest;
-      this.authService.register(registerRequest).subscribe({
+      this.subscription = this.authService.register(registerRequest).subscribe({
         next: (response: SessionInformation) => {
           this.sessionService.logIn(response);
           this.router.navigate(['/articles']);

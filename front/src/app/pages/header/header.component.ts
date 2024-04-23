@@ -27,7 +27,7 @@ export class HeaderComponent {
     return this.router.url === '/user';
   }
 
-  toggleDrawer() {
+  toggleDrawer(): void{
     this.drawerService.toggleDrawer();
   }
 }

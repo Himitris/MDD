@@ -38,7 +38,7 @@ export class DetailsComponent implements OnInit {
     }
   }
 
-  sendComment() {
+  sendComment() : void{
     if (this.commentContent != "") {
       this.subscription = this.articleService.sendComment(this.articleId, this.commentContent).subscribe(response=>{
         this.commentContent = "";
