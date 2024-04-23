@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,6 @@ public class CommentController {
 
     @PostMapping("{id}/comment")
     public ResponseEntity<?> addComment(@RequestBody CommentRequest commentRequest, @PathVariable Long id) { 
-        // Récupérez l'utilisateur courant à partir du contexte de sécurité
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment comment = Comment.builder().content(commentRequest.content).articleId(id).userId(currentUser.getId()).authorUsername(currentUser.getUsername()).build();
         commentService.save(comment);

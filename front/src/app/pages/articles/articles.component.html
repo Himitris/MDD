@@ -13,7 +13,7 @@
         </div>
         <mat-card-content *ngIf="feed?.['length']" class="items">
             <div class="item" *ngFor="let article of feed | sortBy: sortBy">
-                <mat-card>
+                <mat-card [routerLink]="[article.id]">
                     <mat-card-header>
                         <mat-card-title>{{ article.title }}</mat-card-title>
                     </mat-card-header>
@@ -26,12 +26,6 @@
                             {{ truncateContent(article.content) }}
                         </p>
                     </mat-card-content>
-                    <mat-card-actions>
-                        <button mat-raised-button color="primary" [routerLink]="[article.id]">
-                            <mat-icon>search</mat-icon>
-                            <span class="ml1">Detail</span>
-                        </button>
-                    </mat-card-actions>
                 </mat-card>
             </div>
         </mat-card-content>

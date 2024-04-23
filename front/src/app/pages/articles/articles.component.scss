@@ -48,6 +48,15 @@
       }
     }
   }
+  .item mat-card {
+    margin-bottom: 40px;
+    transition: transform 0.3s ease;
+  }
+  .item mat-card:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+  }
+
   @media (max-width: 770px) {
     .items {
       grid-template-columns: 100%;
