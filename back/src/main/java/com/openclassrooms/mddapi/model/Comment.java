@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Data
 @Entity
 @Table(name = "COMMENT")
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Comment {
