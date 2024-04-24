@@ -19,7 +19,7 @@ Go to resources/sql in the root directory and :
 
 initialize the following two environment variables: SPRING_DATASOURCE_USERNAME SPRING_DATASOURCE_PASSWORD with your credentials and SPRING_JWT_SECRETKEY with a 64 random hexadecimal.
 
-THen you're réady to run it !
+Then you're réady to run it !
 
 ## Author
 

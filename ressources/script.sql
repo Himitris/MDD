@@ -18,6 +18,8 @@ CREATE TABLE `ARTICLES` (
   `content` VARCHAR(10000),
   `author_id` int,
   `topic_id` int,
+  `author_username` VARCHAR(40),
+  `topic_name` VARCHAR(40),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
