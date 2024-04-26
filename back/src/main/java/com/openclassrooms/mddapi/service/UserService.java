@@ -22,18 +22,15 @@ public class UserService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     
-    private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public User findById(Long id) {
-        return this.userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     public User findByEmail(String email) {
-         return this.userRepository.findByEmail(email);
+         return userRepository.findByEmail(email);
     }
 
     public User save(User user) {

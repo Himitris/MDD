@@ -40,12 +40,7 @@ public class TopicController {
 
     @GetMapping("/{id}")
     public Topic getTopicsById(@PathVariable Long id) {
-        Topic findById = topicService.findById(id);
-        if (findById != null){
-            return findById;
-        } else {
-            return null;
-        }
+        return topicService.findById(id);
     }
 
     @PostMapping("/participate")

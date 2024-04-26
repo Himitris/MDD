@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { ArticleService } from 'src/app/services/article.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   article$: Observable<Article> | undefined;
   comments$: Observable<Comment[]> | undefined;
   loading: boolean = false;
@@ -26,7 +26,7 @@ export class DetailsComponent implements OnInit {
     private matSnackBar: MatSnackBar
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.articleId = this.route.snapshot.params['id'];
     this.article$ = this.articleService.detail(this.articleId);
     this.comments$ = this.articleService.getComments(this.articleId);

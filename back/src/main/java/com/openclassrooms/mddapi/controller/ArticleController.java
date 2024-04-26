@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,21 +73,19 @@ public class ArticleController {
     }
 
     @GetMapping("/feed")
-    public ResponseEntity<Map<String, List<Article>>> getArticlesForFeed() {
-        // Récupérer l'utilisateur courant à partir du contexte de sécurité
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) authentication.getPrincipal();
-        Long currentUserId = currentUser.getId();
+    public ResponseEntity<List<Article>> getArticlesForFeed() {
+          // Récupérer l'utilisateur courant à partir du contexte de sécurité
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User currentUser = (User) authentication.getPrincipal();
+            Long currentUserId = currentUser.getId();
 
-        // Récupérer les topics suivis par l'utilisateur courant
-        List<Topic> userTopics = topicService.getFollowedTopics(currentUserId);
-        Map<String, List<Article>> response = new HashMap<>();
-        userTopics.stream().forEach(topic -> {
-            List<Article> topicArticles = articleService.findByTopicId(topic.getId());
-            if (!topicArticles.isEmpty()) {
-                response.put(topic.getTitle(), topicArticles);
-            }
-        });
-        return ResponseEntity.ok(response);
+            // Récupérer les topics suivis par l'utilisateur courant
+            List<Topic> userTopics = topicService.getFollowedTopics(currentUserId);
+            List<Article> allArticles = new ArrayList<>();
+            userTopics.forEach(topic -> {
+                List<Article> topicArticles = articleService.findByTopicId(topic.getId());
+                allArticles.addAll(topicArticles);
+            });
+            return ResponseEntity.ok(allArticles);
     }
 }

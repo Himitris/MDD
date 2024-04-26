@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, catchError, of } from 'rxjs';
 import { Article } from 'src/app/interfaces/article.interface';
@@ -10,7 +10,7 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.scss'],
 })
-export class ArticlesComponent {
+export class ArticlesComponent implements OnInit, OnDestroy {
   feed!: Article[] | null;
   sortBy: 'dateAsc' | 'dateDesc' = 'dateDesc';
   loading = true;
@@ -51,7 +51,7 @@ export class ArticlesComponent {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(): void {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth <= 425) {
       this.dateFormat = 'dd/MM/yy';

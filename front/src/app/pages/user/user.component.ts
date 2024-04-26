@@ -1,5 +1,5 @@
 import { SessionInformation } from './../../interfaces/sessionInformation.interface';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription, catchError, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { cloneDeep } from 'lodash';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy{
   topics: Topic[] = [];
   user!: SessionInformation;
   userDataStorage!: SessionInformation;
@@ -56,6 +56,7 @@ export class UserComponent implements OnInit {
           );
       });
   }
+  
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -63,7 +64,7 @@ export class UserComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(): void {
     this.innerWidth = window.innerWidth;
   }
 
@@ -90,7 +91,8 @@ export class UserComponent implements OnInit {
       this.user &&
       this.isPasswordValid() &&
       this.isEmailValid() &&
-      this.checkModification()
+      this.checkModification() &&
+      this.user.username != ""
     ) {
       this.errorMessage = '';
       const modifyUserRequest: ModifyUserRequest = {
@@ -122,8 +124,10 @@ export class UserComponent implements OnInit {
         'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
     } else if (!this.isEmailValid()) {
       this.errorMessage = "L'adresse email n'est pas valide.";
-    } else {
+    } else if (!this.checkModification()) {
       this.errorMessage = 'Aucun modification apportée';
+    } else {
+      this.errorMessage = 'Pseudo incorrect';
     }
   }
 

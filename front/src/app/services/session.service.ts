@@ -19,8 +19,7 @@ export class SessionService {
   }
 
   public checkCookieExists(): boolean {
-    const cookieExists = this.document.cookie.indexOf('JWT_TOKEN=') > -1;
-    return cookieExists;
+    return this.document.cookie.indexOf('JWT_TOKEN=') > -1;
   }
 
   public logIn(user: SessionInformation): void {

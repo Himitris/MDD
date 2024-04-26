@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   hide: boolean = true;
   errorMessage = '';
   private subscription?: Subscription;
@@ -37,7 +37,11 @@ export class RegisterComponent {
   }
 
   public submit(): void {
-    if (this.isPasswordValid() && this.isEmailValid()) {
+    if (
+      this.isPasswordValid() &&
+      this.isEmailValid() &&
+      (this.form.get('username')?.value as string) != ''
+    ) {
       const registerRequest = this.form.value as RegisterRequest;
       this.subscription = this.authService.register(registerRequest).subscribe({
         next: (response: SessionInformation) => {
@@ -46,10 +50,13 @@ export class RegisterComponent {
         },
         error: (error) => (this.errorMessage = error.error),
       });
+    } else if (!this.isPasswordValid()) {
+      this.errorMessage =
+        'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.';
+    } else if (!this.isEmailValid()) {
+      this.errorMessage = "L'adresse email n'est pas valide.";
     } else {
-      this.errorMessage = !this.isPasswordValid
-        ? 'Le mot de passe doit avoir 8 caractères avec majuscule, minuscule, chiffre et caractère spécial.'
-        : "L'adresse email n'est pas valide.";
+      this.errorMessage = 'Veuillez rentrer un pseudo';
     }
   }
 
@@ -67,8 +74,8 @@ export class RegisterComponent {
   private isEmailValid(): boolean {
     const emailControl = this.form.get('email');
     const email = emailControl?.value as string;
-    return (
-      !!email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
-    );
+     return (
+       !!email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+     );
   }
 }

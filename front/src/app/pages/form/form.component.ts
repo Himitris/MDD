@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { TopicService } from 'src/app/services/topic.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
   articleForm!: FormGroup;
   topics$ = this.topicService.all();
   private subscription?: Subscription;
@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
     private router: Router
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.initForm();
   }
 
